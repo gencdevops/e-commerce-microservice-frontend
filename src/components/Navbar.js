@@ -14,11 +14,11 @@ const LoginButton = () => {
         </button>
                 {showModal ? (
                     <>
-                        <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                        <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none background-modal">
                             <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none modal-login">
                                     <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
-                                        <h3 className="text-3xl font=semibold">General Info</h3>
+                                        <h3 className="text-3xl font=semibold">Giriş Yap</h3>
                                         <button
                                             className="bg-transparent border-0 text-black float-right"
                                             onClick={() => setShowModal(false)}
@@ -29,7 +29,7 @@ const LoginButton = () => {
                                         </button>
                                     </div>
                                     <div className="relative p-6 flex-auto">
-                                        <form className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 w-full">
+                                        <form className="shadow-md rounded px-8 pt-6 pb-8 w-full">
                                             <div>
                                                 <label
                                                     className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -163,7 +163,7 @@ function Navbar() {
                     </ul>
                 </nav>
                 <div>
-                    <div className="hidden lg:flex gap-8">
+                    <div className="lg:flex gap-8">
                         <CartButton items={amount}/>
                         {
                             isAuthenticated ? <LogoutButton/> : <LoginButton/>
