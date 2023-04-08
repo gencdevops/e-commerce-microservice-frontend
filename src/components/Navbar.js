@@ -3,52 +3,94 @@ import { useLocation, NavLink, Link} from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import {StoreContext} from '../context/index'
 
+import '../app.css'
+
 const LoginButton = () => {
     // const { loginWithRedirect } = useAuth0()
+    const [showModal, setShowModal] = useState(false);
     return (<>
-        <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="block text-2xl items-center lg:text-xl gap-3">
-            Login
+        <button onClick={() => setShowModal(true)} className="block text-2xl items-center lg:text-xl gap-3">
             <svg className="w-8 lg:w-7" stroke="#ef4444" fill="#ef4444" strokeWidth="0" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><path d="M624 208h-64v-64c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v64h-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h64v64c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-64h64c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm-400 48c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg>
         </button>
+                {showModal ? (
+                    <>
+                        <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                    <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
+                                        <h3 className="text-3xl font=semibold">General Info</h3>
+                                        <button
+                                            className="bg-transparent border-0 text-black float-right"
+                                            onClick={() => setShowModal(false)}
+                                        >
+                    <span className="text-black opacity-7 h-6 w-6 text-xl block bg-gray-400 py-0 rounded-full">
+                      x
+                    </span>
+                                        </button>
+                                    </div>
+                                    <div className="relative p-6 flex-auto">
+                                        <form className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 w-full">
+                                            <div>
+                                                <label
+                                                    className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                                                    htmlFor="first-name"
+                                                >
+                                                    E-posta
+                                                </label>
+                                            </div>
+                                            <div className="mx-1">
+                                                <input
+                                                    className="shadow appearance-none border-2 bg-white border-gray-200 rounded
+            w-full py-2 px-4  leading-tight text-sm focus:outline-none mb-2"
+                                                    id="first-name"
+                                                    type="email"
+                                                />
+                                            </div>
 
 
-<button data-modal-target="staticModal" data-modal-toggle="staticModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-  Toggle modal
-</button>
-
-
-<div id="staticModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-    <div class="relative w-full h-full max-w-2xl md:h-auto">
-     
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-
-            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Static modal
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="staticModal">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                </button>
-            </div>
-
-            <div class="p-6 space-y-6">
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-            </div>
-    
-            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button data-modal-hide="staticModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                <button data-modal-hide="staticModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
-            </div>
-        </div>
-    </div>
-</div>
-</>
-
+                                            <div>
+                                                <label
+                                                    className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                                                    htmlFor="password"
+                                                >
+                                                    Parola
+                                                </label>
+                                            </div>
+                                            <div className="mx-1">
+                                                <input
+                                                    className="shadow appearance-none border-2 bg-white border-gray-200 rounded
+            w-full py-2 px-4  leading-tight text-sm focus:outline-none mb-2"
+                                                    id="password"
+                                                    type="password"
+                                                />
+                                            </div>
+                                            <div className="lg:flex mb-3">
+                                                <div className="md:w-8/12 text-left ml-1">
+                                                    <button
+                                                        className="w-8/12 shadow bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                                        type="button"
+                                                    >
+                                                        Giriş Yap
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                        <button
+                                            className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                                            type="button"
+                                            onClick={() => setShowModal(false)}
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                ) : null}
+            </>
     )
 }
 
