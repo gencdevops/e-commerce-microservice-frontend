@@ -10,33 +10,25 @@ import {useAlert} from "react-alert";
 
 const LoginButton = () => {
 
-    // states
+    let alert = useAlert();
+    let history = useHistory();
+
+    function logOut(){ setLogin(false)}
+    function emailChange(e) {setEmail(e.target.value)}
+    function passwordChange(e) {setPassword(e.target.value)}
+
+    const {isLogin, setLogin} = useContext(StoreContext);
     const [showModal, setShowModal] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    // isLogin
-    const isLogin = localStorage.getItem("mail");
-
-    // for redirect to
-    let history = useHistory();
-
-    // alert
-    let alert = useAlert();
-
-    function emailChange(e) {
-        setEmail(e.target.value)
-    }
-
-    function passwordChange(e) {
-        setPassword(e.target.value)
-    }
 
     function signIn() {
         AuthService.login(email, password).then(
             () => {
                 const user = JSON.parse(localStorage.getItem('user'));
                 localStorage.setItem("mail", jwtDecode(user.token).sub);
+                setEmail(localStorage.getItem("mail"));
+                setLogin(true);
                 history.push("/");
                 setShowModal(false)
             },
@@ -45,10 +37,9 @@ const LoginButton = () => {
             }
         )
     }
-
     return (<>
-            {isLogin !== '' ?
-                (<button className="flex text-2xl items-center lg:text-xl gap-3" onClick={() => AuthService.logout()}>
+            {isLogin ?
+                (<button className="flex text-2xl items-center lg:text-xl gap-3" onClick={()=> logOut()}>
                     <svg className="w-8 lg:w-7" stroke="#ef4444" fill="#ef4444" strokeWidth="0" viewBox="0 0 640 512"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -66,7 +57,7 @@ const LoginButton = () => {
                     </svg>
                 </button>)
             }
-            <span>{isLogin !== "" ? isLogin : "Giriş"}</span>
+            <span>{isLogin ? email : "Giriş"}</span>
             {showModal ? (
                 <>
                     <div
@@ -235,9 +226,6 @@ function Navbar() {
                             isAuthenticated ? <LogoutButton/> : <LoginButton/>
                         }
                     </div>
-                    <button onClick={() => setMobileMenuOpen(true)} className="btn-lg lg:hidden border-0 bg-transparent text-blue-500">
-                        <i className="fa-lg md:fa-2x fas fa-bars"></i>
-                    </button>
                 </div>
             </div>
             <div className={`z-20 fixed top-0 left-0 w-full h-screen bg-blue-500 px-5 py-8 transition-transform duration-500 ease-in-out transform  ${mobileMenuOpen ? '' : '-translate-x-full'}`}>

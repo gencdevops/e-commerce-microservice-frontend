@@ -1,8 +1,11 @@
 import axios from "axios";
+import {StoreContext} from "../context";
+import {useContext} from "react";
 
 const API_URL = "http://localhost:9002/";
 
 class AuthService {
+
     login(username, password) {
 
         return axios
@@ -20,7 +23,7 @@ class AuthService {
     }
 
     logout() {
-        localStorage.removeItem("user");
+
     }
 
     register(username, email, password) {

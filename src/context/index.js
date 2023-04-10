@@ -19,6 +19,9 @@ const StoreProvider = ({children}) => {
     const [sortByIndex, setSortByIndex] = useState(0)
     const [viewGrid, setViewGrid] = useState(true)
 
+    // login & logout
+    const [isLogin, setLogin] = useState(false);
+
     const {response: products, error } = useFetch('https://course-api.com/react-store-products')
 
     if(error) return 'error....';
@@ -46,6 +49,7 @@ const StoreProvider = ({children}) => {
             sortByIndex, setSortByIndex,
             viewGrid, setViewGrid,
             products, error,
+            isLogin, setLogin,
             clearFilters
         }}>
             {products ? children : ''}
