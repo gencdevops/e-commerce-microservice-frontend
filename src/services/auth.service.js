@@ -1,6 +1,4 @@
 import axios from "axios";
-import {StoreContext} from "../context";
-import {useContext} from "react";
 
 const API_URL = "http://localhost:9002/";
 
@@ -26,16 +24,14 @@ class AuthService {
 
     }
 
-    register(username, email, password) {
-        return axios.post(API_URL + "signup", {
-            username,
-            email,
-            password
-        });
+    register(userRegisterRequestDto) {
+        return axios.post(API_URL + "user/register",
+            userRegisterRequestDto
+        );
     }
 
     getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));;
+        return JSON.parse(localStorage.getItem('user'));
     }
 }
 
