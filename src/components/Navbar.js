@@ -1,49 +1,115 @@
-import React, {useContext, useState, useEffect} from 'react'
-import { useLocation, NavLink, Link} from 'react-router-dom'
-import { useAuth0 } from '@auth0/auth0-react'
+import React, {useContext, useEffect, useState} from 'react'
+import {Link, NavLink, useHistory, useLocation} from 'react-router-dom'
+import {useAuth0} from '@auth0/auth0-react'
 import {StoreContext} from '../context/index'
 
 import '../app.css'
+import AuthService from "../services/auth.service";
+import jwtDecode from "jwt-decode";
+import {useAlert} from "react-alert";
 
 const LoginButton = () => {
-    // const { loginWithRedirect } = useAuth0()
+
+    // states
     const [showModal, setShowModal] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    // isLogin
+    const isLogin = localStorage.getItem("mail");
+
+    // for redirect to
+    let history = useHistory();
+
+    // alert
+    let alert = useAlert();
+
+    function emailChange(e) {
+        setEmail(e.target.value)
+    }
+
+    function passwordChange(e) {
+        setPassword(e.target.value)
+    }
+
+    function signIn() {
+        AuthService.login(email, password).then(
+            () => {
+                const user = JSON.parse(localStorage.getItem('user'));
+                localStorage.setItem("mail", jwtDecode(user.token).sub);
+                history.push("/");
+                setShowModal(false)
+            },
+            err => {
+                alert.show("Login hatası oluştu!")
+            }
+        )
+    }
+
     return (<>
-        <button onClick={() => setShowModal(true)} className="block text-2xl items-center lg:text-xl gap-3">
-            <svg className="w-8 lg:w-7" stroke="#ef4444" fill="#ef4444" strokeWidth="0" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><path d="M624 208h-64v-64c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v64h-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h64v64c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-64h64c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm-400 48c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg>
-        </button>
-                {showModal ? (
-                    <>
-                        <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none background-modal">
-                            <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none modal-login">
-                                    <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
-                                        <h3 className="text-3xl font=semibold">Giriş Yap</h3>
-                                        <button
-                                            className="bg-transparent border-0 text-black float-right"
-                                            onClick={() => setShowModal(false)}
-                                        >
-                    <span className="text-black opacity-7 h-6 w-6 text-xl block bg-gray-400 py-0 rounded-full">
-                      x
-                    </span>
+            {isLogin !== '' ?
+                (<button className="flex text-2xl items-center lg:text-xl gap-3" onClick={() => AuthService.logout()}>
+                    <svg className="w-8 lg:w-7" stroke="#ef4444" fill="#ef4444" strokeWidth="0" viewBox="0 0 640 512"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M624 208H432c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h192c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm-400 48c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path>
+                    </svg>
+                </button>)
+
+                :
+
+                (<button onClick={() => setShowModal(true)} className="block text-2xl items-center lg:text-xl gap-3">
+                    <svg className="w-8 lg:w-7" stroke="#ef4444" fill="#ef4444" strokeWidth="0" viewBox="0 0 640 512"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M624 208h-64v-64c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v64h-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h64v64c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-64h64c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm-400 48c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path>
+                    </svg>
+                </button>)
+            }
+            <span>{isLogin !== "" ? isLogin : "Giriş"}</span>
+            {showModal ? (
+                <>
+                    <div
+                        className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none background-modal">
+                        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                            <div
+                                className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none modal-login">
+                                <div
+                                    className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
+                                    <h3 className="text-3xl font=semibold">Giriş Yapınız</h3>
+                                    <button
+                                        className="bg-transparent border-0 text-black float-right"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        <button type="button"
+                                                className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                                            <span className="sr-only">Close menu</span>
+
+                                            <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                 viewBox="0 0 24 24"
+                                                 stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
                                         </button>
+                                    </button>
                                     </div>
                                     <div className="relative p-6 flex-auto">
                                         <form className="shadow-md rounded px-8 pt-6 pb-8 w-full">
                                             <div>
                                                 <label
                                                     className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                                                    htmlFor="first-name"
+                                                    htmlFor="email"
                                                 >
                                                     E-posta
                                                 </label>
                                             </div>
                                             <div className="mx-1">
-                                                <input
-                                                    className="shadow appearance-none border-2 bg-white border-gray-200 rounded
+                                                <input onChange={(e) => emailChange(e)}
+                                                       className="shadow appearance-none border-2 bg-white border-gray-200 rounded
             w-full py-2 px-4  leading-tight text-sm focus:outline-none mb-2"
-                                                    id="first-name"
-                                                    type="email"
+                                                       id="email"
+                                                       type="email"
                                                 />
                                             </div>
 
@@ -57,18 +123,18 @@ const LoginButton = () => {
                                                 </label>
                                             </div>
                                             <div className="mx-1">
-                                                <input
-                                                    className="shadow appearance-none border-2 bg-white border-gray-200 rounded
+                                                <input onChange={(e) => passwordChange(e)}
+                                                       className="shadow appearance-none border-2 bg-white border-gray-200 rounded
             w-full py-2 px-4  leading-tight text-sm focus:outline-none mb-2"
-                                                    id="password"
-                                                    type="password"
+                                                       id="password"
+                                                       type="password"
                                                 />
                                             </div>
                                             <div className="lg:flex mb-3">
                                                 <div className="md:w-8/12 text-left ml-1">
-                                                    <button
-                                                        className="w-8/12 shadow bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                                                        type="button"
+                                                    <button onClick={signIn}
+                                                            className="w-8/12 shadow bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                                            type="button"
                                                     >
                                                         Giriş Yap
                                                     </button>

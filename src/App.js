@@ -6,10 +6,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
-
 import AppProvider from './components/AppProvider'
-
-
 import Products from './templates/products'
 import Product from './templates/product'
 import Cart from './templates/cart'
@@ -25,6 +22,7 @@ Number.prototype.toCurrency = function(){
 
 
 function App() {
+
   return (
     <Router>
       <AppProvider>
