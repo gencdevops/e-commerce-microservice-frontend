@@ -122,13 +122,16 @@ const LoginButton = () => {
                                                 />
                                             </div>
                                             <div className="lg:flex mb-3">
-                                                <div className="md:w-8/12 text-left ml-1">
+                                                <div className="md:w-6/12 text-left">
                                                     <button onClick={signIn}
                                                             className="w-8/12 shadow bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                                                             type="button"
                                                     >
                                                         Giriş Yap
                                                     </button>
+                                                </div>
+                                                <div className="md:w-6/12 text-left underline text-red-500 mt-2">
+                                                   <Link onClick={() => setShowModal(false)} to="/register">Kayıt ol</Link>
                                                 </div>
                                             </div>
                                         </form>

@@ -22,7 +22,7 @@ const StoreProvider = ({children}) => {
     // login & logout
     const [isLogin, setLogin] = useState(false);
 
-    const {response: products, error } = useFetch('https://course-api.com/react-store-products')
+    const {response: products, error } = useFetch('http://localhost:9003/product')
 
     if(error) return 'error....';
     
