@@ -1,9 +1,6 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import Breadcrumbs from '../components/Breadcrumbs'
-import ColorSelector from '../components/ColorSelector'
-import ProductPanel from '../components/ProductPanel'
-import { StoreContext } from '../context'
+import React, {useContext} from 'react'
+import {StoreContext} from '../context'
+import ProductPanel from "../components/ProductPanel";
 
 const CATEGORIES = [
     'bedroom',
@@ -91,15 +88,22 @@ export default function Products() {
                         
                         <article id="products-list">
                             <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-                            {
-                                products.map(product => (
+                                {products == "" ?
+                                    <div
+                                        className="bg-red-100 border border-red-400 text-red-700  py-3 rounded"
+                                        role="alert">
+                                        <strong className="font-bold">Bilgilendirme!</strong>
+                                        <span className="block">Mağazamızda  geçici bir süre satış yapılamamaktadır.</span>
+                                    </div>
+                                    :
+                                    products.map(product => (
                                     <ProductPanel
-                                        key={product.id}
-                                        {...product}
-                                        grid={viewGrid}
+                                    key={product.id}
+                                {...product}
+                                    grid={viewGrid}
                                     />
-                                ))
-                            }
+                                    ))
+                                }
                             </div>
                         </article>
                     </section>
