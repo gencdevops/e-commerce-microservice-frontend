@@ -16,6 +16,7 @@ import ForgetPasswordPage from './components/ForgetPasswordPage'
 import RegisterPage from './components/RegisterPage'
 import LoginPage from './components/LoginPage'
 import ResetPassword from "./components/ResetPassword";
+import NewPasswordPage from "./components/NewPasswordPage"
 import paymentSuccess from './templates/paymentSuccess';
 
 // eslint-disable-next-line no-extend-native
@@ -43,6 +44,7 @@ function App() {
           <Route path="/register" component={RegisterPage}/>
           <Route path="/forgot-password" component={ForgetPasswordPage}/>
           <Route path="/reset-password" component={ResetPassword}/>
+          <Route path="/change-password" component={NewPasswordPage} />
           <Route path="/paymentSuccess" component={paymentSuccess} />
           <Route path="*">
             <div className="tw-container text-center py-20">
