@@ -99,7 +99,7 @@ export default function Cart() {
                                         <span>{getSubtotal().toCurrency()}</span>
                                     </h4>
                                 </article>
-                                    <Link className='btn-sm bg-red-500 text-white text-bold mt-7 text-center'>
+                                    <Link to='/paymentSuccess' className='btn-sm bg-red-500 text-white text-bold mt-7 text-center'>
                                         Go to the payment screen
                                     </Link>
                             </div>
