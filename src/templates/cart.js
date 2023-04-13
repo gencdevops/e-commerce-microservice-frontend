@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StoreContext } from '../context'
 import { Link } from 'react-router-dom'
-import { useAuth0 } from '@auth0/auth0-react'
 import Counter from '../components/Counter'
 import axios from 'axios'
 
 export default function Cart() {
-    const { isAuthenticated, loginWithRedirect } = useAuth0()
-    const { cart, setCart, productIds, setProductIds } = useContext(StoreContext)
+    const { cart, productIds, setProductIds } = useContext(StoreContext)
     const [basketData, setBasketData] = useState([])
     const API_URL = 'http://localhost:9003'
 
@@ -41,8 +39,8 @@ export default function Cart() {
 
     const getSubtotal = () => {
         return basketData.reduce((total, {data}) => {
-            total += (data.price * 2);
-            return total.toCurrency();
+            total += (data.price);
+            return total
         }, 0);
     }
 
@@ -98,7 +96,7 @@ export default function Cart() {
                                     <hr className="my-4"/>
                                     <h4 className="flex justify-center gap-5" style={{ gridTemplateColumns: '200px 1fr' }}>
                                         Order Total:
-                                        <span>{getSubtotal()}</span>
+                                        <span>{getSubtotal().toCurrency()}</span>
                                     </h4>
                                 </article>
                                     <Link className='btn-sm bg-red-500 text-white text-bold mt-7 text-center'>
