@@ -26,23 +26,6 @@ export default function ResetPassword() {
           />
         </div>
 
-
-        <div>
-          <label
-            class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-            for="re-password"
-          >
-            Parola Tekrar
-          </label>
-        </div>
-        <div className="mx-1">
-          <input
-            class="shadow appearance-none border-2 bg-white border-gray-200 rounded
-            w-full py-2 px-4  leading-tight text-sm focus:outline-none mb-2"
-            id="re-password"
-            type="password"
-          />
-        </div>  
       <div class="lg:flex mb-3">
         <div class="md:w-8/12 text-left ml-1">
           <button

@@ -18,7 +18,7 @@ const LoginButton = () => {
     function passwordChange(e) {setPassword(e.target.value)}
 
     const {isLogin, setLogin} = useContext(StoreContext);
-    const [showModal, setShowModal] = useState(false);
+    const {showModal, setShowModal} = useContext(StoreContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     
@@ -130,8 +130,11 @@ const LoginButton = () => {
                                                         Giriş Yap
                                                     </button>
                                                 </div>
-                                                <div className="flex justify-center md:w-6/12 underline text-red-500 mt-2">
+                                                <div className="flex justify-center md:w-12/12 underline text-red-500 mt-2">
                                                    <Link onClick={() => setShowModal(false)} to="/register">Kayıt ol</Link>
+                                                </div>
+                                                <div className="flex justify-center md:w-6/12 underline text-red-500 mt-2">
+                                                    <Link onClick={() => setShowModal(false)} to="/forgot-password">Şifremi Unuttum</Link>
                                                 </div>
                                             </div>
                                         </form>
