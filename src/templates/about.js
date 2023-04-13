@@ -1,17 +1,12 @@
 import React from 'react'
-import Breadcrumbs from '../components/Breadcrumbs'
 import { Link } from 'react-router-dom'
 
 const About = () => (
     <>
-        <Breadcrumbs>
-            <Link to="/">Home</Link>
-            About
-        </Breadcrumbs>
         <section id="about" className="py-16">
             <div className="tw-container grid grid-cols-1 lg:grid-cols-2 gap-y-8 gap-x-16">
                 <img
-                    style={{height: '450px'}}
+                    style={{ height: '450px'}}
                     alt="dining room"
                     className="object-cover rounded w-full bg-gray-100"
                     src='https://react-course-comfy-sloth-store.netlify.app/static/media/hero-bcg.a876f19f.jpeg'

@@ -11,20 +11,19 @@ const CheckMark = () => (
     </svg>
 )
 
-
 const ColorSelector = ({colors, index = 0, setIndex}) => (
     <div className="flex gap-2">
         {
             colors.map((color, i) => (
                 <button
                     key={i}
-                    style={{background: color}}
+                    style={{ background: color }}
+                    onClick={() => setIndex(i)}
                     className={`
                         w-6 h-6 rounded-full
                         p-1.5 text-white
                         ${index !== i ? 'opacity-50' : ''}
                     `}
-                    onClick={() => setIndex(i)}
                 >
                 {
                     index === i &&

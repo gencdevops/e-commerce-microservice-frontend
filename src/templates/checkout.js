@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link, useHistory } from 'react-router-dom'
-import Breadcrumbs from '../components/Breadcrumbs'
 
 
 export default function Checkout() {
@@ -13,12 +12,7 @@ export default function Checkout() {
     }, [isAuthenticated, history]);
 
     if(isAuthenticated) {
-        return (
-            <Breadcrumbs>
-                <Link to="/">Home</Link>
-                Checkout
-            </Breadcrumbs>
-        )
+        return true
     }
 
     return null;

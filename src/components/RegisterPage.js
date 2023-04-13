@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
-import {useAlert} from "react-alert";
+import React, { useState } from 'react'
+import { useAlert } from "react-alert";
 import AuthService from "../services/auth.service";
-import {RegisterModel} from "../models/register-model";
-
+import { RegisterModel } from "../models/register-model";
 
 export default function SignUpPage() {
     const [firstName, setFirstName] = useState('');
@@ -10,16 +9,15 @@ export default function SignUpPage() {
     const [email, setEmail] = useState('');
     const [birthDate, setBirthDate] = useState('');
     const [password, setPassword] = useState('');
-    const [rePassword, setRepassWord] = useState('');
-
     const alert = useAlert();
+
     function passwordChange(e) {setPassword(e.target.value)}
     function firstNameChange(e) {setFirstName(e.target.value)}
     function lastNameChange(e) {setLastName(e.target.value)}
-    function  emailChange(e) {setEmail(e.target.value)}
+    function  emailChange(e) {  setEmail(e.target.value) }
     function  birthDateChange(e) {setBirthDate(e.target.value)}
-    function registerUser(){
 
+    function registerUser(){
        let userRegisterRequestDto = new RegisterModel(email,password,firstName,lastName,birthDate);
         AuthService.register(userRegisterRequestDto).then(
             res=>{
@@ -32,10 +30,9 @@ export default function SignUpPage() {
     }
 
     return (
-        <div className="text-center m-5-auto">
-        <h2>Kayıt Ol</h2>
-        <form  class="max-w-lg w-4/12 rounded overflow-hidden shadow-lg">
-      
+        <div className="text-center m-5-auto mt-3">
+          <h2>Kayıt Ol</h2>
+          <form  class="max-w-lg w-9/12 rounded overflow-hidden shadow-lg">      
             <div>
               <label
                 class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -52,8 +49,6 @@ export default function SignUpPage() {
                 type="text"
               />
             </div>
-
-  
             <div>
               <label
                 class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -69,9 +64,7 @@ export default function SignUpPage() {
                 id="last-name"
                 type="text"
               />
-            </div>
-
-       
+            </div>       
             <div>
               <label
                 class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -81,26 +74,26 @@ export default function SignUpPage() {
               </label>
             </div>
             <div className="mx-1">
-              <input  onChange={(e) => emailChange(e)}
+              <input  
+                onChange={(e) => emailChange(e)}
                 class="shadow appearance-none border-2 bg-white border-gray-200 rounded 
                 w-full py-2 px-4  leading-tight text-sm focus:outline-none mb-2"
                 id="email"
                 type="email"
               />
             </div>
-
-          
             <div>
               <label
-                class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
                 for="birthDate"
               >
                 Doğum tarihiniz
               </label>
             </div>
             <div className="mx-1">
-              <input  onChange={(e) => birthDateChange(e)}
-                class="shadow appearance-none border-2 bg-white border-gray-200 rounded 
+              <input  
+                onChange={(e) => birthDateChange(e)}
+                className="shadow appearance-none border-2 bg-white border-gray-200 rounded 
                 w-full py-2 px-4  leading-tight text-sm focus:outline-none mb-2"
                 id="birthDate"
                 type="date"
@@ -115,17 +108,19 @@ export default function SignUpPage() {
                 </label>
             </div>
             <div className="mx-1">
-                <input onChange={(e) => passwordChange(e)}
+                <input 
+                    onChange={(e) => passwordChange(e)}
                     className="shadow appearance-none border-2 bg-white border-gray-200 rounded
-                w-full py-2 px-4  leading-tight text-sm focus:outline-none mb-2"
+                    w-full py-2 px-4  leading-tight text-sm focus:outline-none mb-2"
                     id="password"
                     type="password"
                 />
             </div>
          
-          <div class="lg:flex mb-3">
-            <div class="md:w-8/12 text-left ml-1">
-              <button onClick={()=> registerUser()}
+          <div class="lg:flex justify-center mb-3 mt-3">
+            <div class="flex justify-center md:w-8/12  ml-1">
+              <button 
+                onClick={()=> registerUser()}
                 class="w-8/12 shadow bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                 type="button"
               >

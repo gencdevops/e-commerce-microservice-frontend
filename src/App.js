@@ -16,10 +16,9 @@ import ForgetPasswordPage from './components/ForgetPasswordPage'
 import RegisterPage from './components/RegisterPage'
 import LoginPage from './components/LoginPage'
 // eslint-disable-next-line no-extend-native
-Number.prototype.toCurrency = function(){
+ Number.prototype.toCurrency = function(){
   return `$${(this / 100).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
-
 
 function App() {
 
@@ -53,3 +52,4 @@ function App() {
 }
 
 export default App;
+

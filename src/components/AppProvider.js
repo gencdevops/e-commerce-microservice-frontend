@@ -1,6 +1,6 @@
 import React from 'react'
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react'
-import {StoreProvider} from '../context'
+import { StoreProvider } from '../context'
 import Navbar from './Navbar'
 
 const Footer = () => (
@@ -9,13 +9,13 @@ const Footer = () => (
     </footer>
 )
 
-function Content({children}) {
+function Content({ children }) {
     const { isLoading, error } = useAuth0()
 
     if(isLoading) return null;
     if(error) return 'error...';
 
-    return(
+    return (
         <>
             <Navbar/>
             <main>
@@ -27,7 +27,6 @@ function Content({children}) {
 }
 
 export default function AppProvider(props){
-
     return(
         <Auth0Provider
             domain={process.env.REACT_APP_AUTH_DOMAIN}

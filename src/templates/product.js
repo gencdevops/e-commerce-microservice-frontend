@@ -2,32 +2,27 @@ import React, { useState, useContext } from 'react'
 import useFetch from '../hooks/useFetch'
 import { useHistory, Link } from 'react-router-dom'
 import { StoreContext } from '../context'
-
-import Breadcrumbs from '../components/Breadcrumbs'
 import Counter from '../components/Counter'
 import ColorSelector from '../components/ColorSelector'
 import Loader from '../components/Loader'
 
-export default function Product({id}) {
+export default function Product({ id }) {
     const {response: product, error } = useFetch(`https://course-api.com/react-store-single-product?id=${id}`)
-
     const history = useHistory();
     const { setCart } = useContext(StoreContext)
-
     const [imageIndex, setImageIndex] = useState(0)
     const [colorIndex, setColorIndex] = useState(0)
     const [quantity, setQuantity] = useState(1)
 
     const handleAddCart = () => {
         if(stock <= 0) return;
-        
         setCart(cart => {
             const itemIndex = cart.findIndex(item => item.id === id && item.color === colors[colorIndex])
             if(itemIndex !== -1) {
                 if(quantity <= cart[itemIndex].max) cart[itemIndex].amount = quantity;
                 return [...cart];
             }
-
+            
             return [...cart, {id, name, amount: quantity, image: images[0].url, color: colors[colorIndex], max: stock, price}]
         })
 
@@ -49,11 +44,6 @@ export default function Product({id}) {
 
     return(
         <>
-            <Breadcrumbs>
-                <Link to='/'>Home</Link>
-                <Link to='/products'>Products</Link>
-                <span>{name}</span>
-            </Breadcrumbs>
             <section>
                 <div className="tw-container py-16">
                     <Link to="/products" className="btn-sm bg-blue-500 text-white w-max">Back to Products</Link>
