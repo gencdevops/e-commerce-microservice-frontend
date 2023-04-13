@@ -1,8 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 
 import ".././app.css";
-import AuthService from "../services/auth.service";
-import {useHistory} from "react-router-dom";
 
 export default function ResetPassword() {
 

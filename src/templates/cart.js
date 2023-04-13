@@ -7,15 +7,12 @@ import axios from 'axios'
 export default function Cart() {
     const { cart, productIds, setProductIds } = useContext(StoreContext)
     const [basketData, setBasketData] = useState([])
-    const API_URL = 'http://localhost:9003'
+    const API_URL = 'http://localhost:9006'
 
     useEffect(() => {
-        basketData.length !== productIds.length &&
-        productIds.map(pId => (
-            axios.get(API_URL + `/product/${pId}`).then((data) => {
+            axios.get(API_URL + `/basket/basket-basket/bf01b50e-cb2e-463d-b54f-20a8c61a3aae`).then((data) => {
                 setBasketData(oldArray => [...oldArray, data])
             })
-        ))
     }, [])
 
     const handleAmountChange = (value, index) => {
@@ -56,29 +53,31 @@ export default function Cart() {
                                 <h5>Item</h5>
                                 <h5>Quantity</h5>
                                 <h5>Price</h5>
+                                <h5>Total Price</h5>
                                 <span className="w-8 h-8"></span>
                             </div>
                             <hr className="mt-6"/>
                         </article>
                         {
-                            basketData.map((item, i) => {
-                                const { price, image, name, } = item.data
+                            basketData[0].data.basketItemList.map((item, index) => {
+                                const { price, imgUrl, name, quantity } = item
                                 return (
-                                    <article key={i} className="grid cart-grid-cols-3 lg:cart-grid-cols-5 place-items-center mb-6 capitalize">
+                                    <article key={index} className="grid cart-grid-cols-3 lg:cart-grid-cols-5 place-items-center mb-6 capitalize">
                                         <div className="flex w-full gap-2 md:gap-4 items-center">
-                                            <img alt={item.data.name} className="object-cover w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-md" src={image}/>
+                                            <img alt={name} className="object-cover w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-md" src={imgUrl}/>
                                             <div>
                                                 <h5 className="text-base md:text-lg lg:text-xl font-semibold">{name}</h5>
-                                                <div className="lg:hidden">{price.toCurrency()}</div>
+                                                <div className="lg:hidden">{(price * 2).toCurrency()}</div>
                                             </div>
                                         </div>
                                         <Counter
                                             className="text-3xl md:text-4xl"
-                                            count={2}
-                                            setCount={(value) => handleAmountChange(value, i)}
+                                            count={quantity}
+                                            setCount={(value) => handleAmountChange(value, index)}
                                         />
-                                        <h5 className="hidden lg:block">{((price * 1).toCurrency())}</h5>
-                                        <button className="block ml-3 md:ml-0 w-7 h-7 p-2 bg-red-600 text-white rounded" onClick={() => handleDeleteItem(i)}>
+                                        <h5 className="hidden lg:block">{(price.toCurrency())}</h5>
+                                        <h5 className="hidden lg:block">{((price * 2).toCurrency())}</h5>
+                                        <button className="block ml-3 md:ml-0 w-7 h-7 p-2 bg-red-600 text-white rounded" onClick={() => handleDeleteItem(index)}>
                                             <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512"><path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg>
                                         </button>
                                     </article>
@@ -96,7 +95,7 @@ export default function Cart() {
                                     <hr className="my-4"/>
                                     <h4 className="flex justify-center gap-5" style={{ gridTemplateColumns: '200px 1fr' }}>
                                         Order Total:
-                                        <span>{getSubtotal().toCurrency()}</span>
+                                        <span>{(getSubtotal() * 2 ).toCurrency()}</span>
                                     </h4>
                                 </article>
                                     <Link to='/paymentSuccess' className='btn-sm bg-red-500 text-white text-bold mt-7 text-center'>

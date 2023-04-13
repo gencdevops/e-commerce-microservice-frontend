@@ -2,41 +2,34 @@ import React, {useContext} from 'react'
 import {StoreContext} from '../context'
 import ProductPanel from "../components/ProductPanel";
 
-const CATEGORIES = [
-    'bedroom',
-    'office',
-    'kitchen',
-    'living room',
-    'kids',
-    'dining'
-]
+// const CATEGORIES = [
+//     'bedroom',
+//     'office',
+//     'kitchen',
+//     'living room',
+//     'kids',
+//     'dining'
+// ]
 
-const COMPANIES = [
-    'ikea',
-    'marcos',
-    'liddy',
-    'caressa'
-]
+// const COMPANIES = [
+//     'ikea',
+//     'marcos',
+//     'liddy',
+//     'caressa'
+// ]
 
-const COLORS = [
-    '#0000ff',
-    '#000',
-    '#ff0000',
-    '#ffb900',
-    '#00ff00'
-]
+// const COLORS = [
+//     '#0000ff',
+//     '#000',
+//     '#ff0000',
+//     '#ffb900',
+//     '#00ff00'
+// ]
 
 export default function Products() {
     const {
-        query, setQuery,
-        categoryIndex, setCategoryIndex,
-        freeShipping, setFreeShipping,
-        price, setPrice, 
-        colorIndex, setColorIndex,
-        companyIndex, setCompanyIndex,
-        sortByIndex, setSortByIndex,
-        viewGrid, setViewGrid,
-        products, clearFilters
+        viewGrid,
+        products,
     } = useContext(StoreContext)
 
     // const filteredProducts = products && products.filter(product => {
@@ -88,7 +81,7 @@ export default function Products() {
                         
                         <article id="products-list">
                             <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-                                {products == "" ?
+                                {products === "" ?
                                     <div
                                         className="bg-red-100 border border-red-400 text-red-700  py-3 rounded"
                                         role="alert">
@@ -99,7 +92,7 @@ export default function Products() {
                                     products.map(product => (
                                     <ProductPanel
                                     key={product.id}
-                                {...product}
+                                    {...product}
                                     grid={viewGrid}
                                     />
                                     ))

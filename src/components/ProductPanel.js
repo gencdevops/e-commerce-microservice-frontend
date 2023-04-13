@@ -6,25 +6,29 @@ import axios from 'axios'
 
 const ProductPanel = ({ id, name, image, price }) => {
     const alert = useAlert()
-    const { setProductIds, productIds } = useContext(StoreContext)
+    const { setProductIds, productIds, isLogin } = useContext(StoreContext)
+    const token = localStorage.getItem("user")
     const API_URL = 'http://localhost:9006'
     
     const addBasketHandler = ( id ) => {
-        if(productIds.includes(id)) {
-           return alert.show('Bu ürün zaten sepetinizde mevcut')
-        } 
-        else {
-            return ( 
-            axios.post(API_URL + "/basket-item/basket-item", {
-                productId: id,
-                quantity: 1,
-                basketId: '04167873-03c3-486b-a028-01bfa7e4bf95'
-            }).then((response) => (
-                    setProductIds([...productIds, id]),
-                    console.log(response)
-                ))
-            )
-        }
+            if(productIds.includes(id)) {
+                return alert.show('This product is already in your cart!')
+            } 
+            else {
+                return ( 
+                axios.post(API_URL + "/basket-item/basket-item", {
+                    productId: id,
+                    quantity: 1,
+                    basketId: 'bf01b50e-cb2e-463d-b54f-20a8c61a3aae'
+                    }, 
+                       
+                    ).then((response) => (
+                        setProductIds([...productIds, id]),
+                        console.log(response)
+                    ))
+                )
+            }
+        
     }
 
     return (
