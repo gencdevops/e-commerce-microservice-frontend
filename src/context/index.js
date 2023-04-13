@@ -7,6 +7,7 @@ const StoreContext = createContext(null)
 const StoreProvider = ({children}) => {
     const [cart, setCart] = useLocalStorage('commerce_cart', [])
     const [productIds , setProductIds] = useLocalStorage('ProductIds', [])
+    const [basketItems, setBasketItems] = useLocalStorage('BasketItems', [])
 
     // Store Filtration
     const [query, setQuery] = useState('')
@@ -42,6 +43,7 @@ const StoreProvider = ({children}) => {
     
     return (
         <StoreContext.Provider value={{
+            basketItems, setBasketItems,
             cart, setCart,
             productIds, setProductIds,
             query, setQuery,

@@ -5,12 +5,12 @@ import Counter from '../components/Counter'
 import axios from 'axios'
 
 export default function Cart() {
-    const { productIds, setProductIds } = useContext(StoreContext)
+    const { productIds, setProductIds, setBasketItems } = useContext(StoreContext)
     const [basketData, setBasketData] = useState([])
     const API_URL = 'http://localhost:9006'
 
     useEffect(() => {
-            axios.get(API_URL + `/basket/basket-basket/2e9bfc60-a562-4d63-8899-f5592b69ac70`).then((data) => {
+            axios.get(API_URL + `/basket/basket-basket/108520d8-90c7-4b42-93e1-260fe2d4a413`).then((data) => {
                 setBasketData(oldArray => [...oldArray, data])
             })
     }, [])
@@ -24,29 +24,32 @@ export default function Cart() {
         })
     }
 
-    const handleDeleteItem = (index) => {
-        setBasketData(data => data.filter((_, i) => i !== index))
-        setProductIds(productIds.filter((_, i) => i !== index))
+    const handleDeleteItem = (index,basketItemId) => {
+        axios.delete(API_URL + `/basket-item/basket-item/${basketItemId}`)
+        .then((response) => {
+            setProductIds(productIds.filter((_, i) => i !== index))
+            setBasketData([{
+
+               data: response.data,
+            }]
+                )
+        })
     }
 
     const handleClearCart = () => {
         if(window.confirm("You're about to clear shopping cart. Is that okay?")) {
-            setBasketData([])
-            setProductIds([])
+            axios.delete(API_URL + `/basket-item/108520d8-90c7-4b42-93e1-260fe2d4a413`)
+            .then(() => {
+                setBasketData([])
+                setProductIds([])
+            })
         }
     }
 
-    const getSubtotal = () => {
-        return basketData[0].data.basketItemList.reduce((total, basket) => {
-            total += (basket.price);
-            return total
-        }, 0);
-    }
-
-    return(
+    return (
         <>
         {
-            basketData.length >0 ?
+            basketData[0]?.data?.basketItemList?.length >0 ?
             <>
                 <section className="py-12">
                     <div className="tw-container">
@@ -61,7 +64,7 @@ export default function Cart() {
                             <hr className="mt-6"/>
                         </article>
                         {
-                            basketData[0].data.basketItemList.map((item, index) => {
+                            basketData[0]?.data?.basketItemList?.map((item, index) => {
                                 const { price, imgUrl, name, quantity, basketItemId, totalPrice } = item
                                 return (
                                     <article key={index} className="grid cart-grid-cols-3 lg:cart-grid-cols-5 place-items-center mb-6 capitalize">
@@ -80,7 +83,7 @@ export default function Cart() {
                                         />
                                         <h5 className="hidden lg:block">{(price.toCurrency())}</h5>
                                         <h5 className="hidden lg:block">{((price * quantity).toCurrency())}</h5>
-                                        <button className="block ml-3 md:ml-0 w-7 h-7 p-2 bg-red-600 text-white rounded" onClick={() => handleDeleteItem(index)}>
+                                        <button className="block ml-3 md:ml-0 w-7 h-7 p-2 bg-red-600 text-white rounded" onClick={() => handleDeleteItem(index, basketItemId)}>
                                             <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512"><path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg>
                                         </button>
                                     </article>
@@ -98,7 +101,7 @@ export default function Cart() {
                                     <hr className="my-4"/>
                                     <h4 className="flex justify-center gap-5" style={{ gridTemplateColumns: '200px 1fr' }}>
                                         Order Total:
-                                        <span>{basketData[0].data.totalPrice.toCurrency()}</span>
+                                        <span>{basketData[0]?.data?.totalPrice?.toCurrency()}</span>
                                     </h4>
                                 </article>
                                     <Link to='/paymentSuccess' className='btn-sm bg-red-500 text-white text-bold mt-7 text-center'>

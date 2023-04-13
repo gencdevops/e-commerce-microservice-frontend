@@ -6,7 +6,7 @@ import axios from 'axios'
 
 const ProductPanel = ({ productId, name, image, price }) => {
     const alert = useAlert()
-    const { setProductIds, productIds, isLogin } = useContext(StoreContext)
+    const { setProductIds, productIds, isLogin, setBasketItems, basketItems } = useContext(StoreContext)
     const token = localStorage.getItem("user")
     const API_URL = 'http://localhost:9006'
     
@@ -20,11 +20,11 @@ const ProductPanel = ({ productId, name, image, price }) => {
                 axios.post(API_URL + "/basket-item/basket-item", {
                     productId: productId,
                     quantity: 1,
-                    basketId: '2e9bfc60-a562-4d63-8899-f5592b69ac70'
+                    basketId: '108520d8-90c7-4b42-93e1-260fe2d4a413'
                     }, 
                     ).then((response) => (
                         setProductIds([...productIds, productId]),
-                        console.log(response)
+                        setBasketItems([...basketItems, response.data])
                     ))
                 )
             }
