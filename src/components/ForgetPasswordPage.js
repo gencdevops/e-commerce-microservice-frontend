@@ -1,6 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
+import AuthService from "../services/auth.service";
 
 export default function ForgetPasswordPage() {
+    const [mail, setMail] = useState("");
+    function handleEmail(e) {
+        setMail(e.target.value);
+    }
+
+    function sendEmail() {
+        AuthService.forgotPassword(mail).then(r => r);
+    }
+
     return (
         <div className="text-center m-5-auto">
         <h2>Şifremi Unuttum</h2>
@@ -15,7 +25,7 @@ export default function ForgetPasswordPage() {
               </label>
             </div>
             <div className="mx-1">
-              <input
+              <input  onChange={(e) => handleEmail(e)}
                 class="shadow appearance-none border-2 bg-white border-gray-200 rounded 
                 w-full py-2 px-4  leading-tight text-sm focus:outline-none"
                 id="inline-full-name"
@@ -25,7 +35,7 @@ export default function ForgetPasswordPage() {
           </div>
           <div class="lg:flex lg:items-center mb-3 ">
 
-              <button
+              <button  onClick={() => sendEmail()}
                 class="shadow bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded lg:ml-20 md:ml-10"
                 type="button"
               >

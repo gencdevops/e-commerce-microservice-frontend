@@ -23,6 +23,8 @@ const StoreProvider = ({children}) => {
     // login & logout
     const [isLogin, setLogin] = useState(false);
 
+    const [showModal, setShowModal] = useState(false);
+
     const {response: products, error } = useFetch('http://localhost:9003/product')
 
     if(error) return 'error....';
@@ -52,6 +54,7 @@ const StoreProvider = ({children}) => {
             viewGrid, setViewGrid,
             products, error,
             isLogin, setLogin,
+            showModal,setShowModal,
             clearFilters
         }}>
             {products ? children : ''}
