@@ -15,6 +15,7 @@ import About from './templates/about'
 import ForgetPasswordPage from './components/ForgetPasswordPage'
 import RegisterPage from './components/RegisterPage'
 import LoginPage from './components/LoginPage'
+import ResetPassword from "./components/ResetPassword";
 // eslint-disable-next-line no-extend-native
 Number.prototype.toCurrency = function(){
   return `$${(this / 100).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
@@ -40,6 +41,7 @@ function App() {
           <Route path="/about" component={About}/>
           <Route path="/register" component={RegisterPage}/>
           <Route path="/forgot-password" component={ForgetPasswordPage}/>
+          <Route path="/reset-password" component={ResetPassword}/>
           <Route path="*">
             <div className="tw-container text-center py-20">
               <h2 className="font-bold">404: Page Not Found</h2>

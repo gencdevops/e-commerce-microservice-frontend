@@ -25,18 +25,16 @@ export default function ForgetPasswordPage() {
               />
             </div>
           </div>
-          <div class="lg:flex lg:items-center mb-3">
-            <div class="md:w-1/3"></div>
-            <div class="md:w-2/3">
+          <div class="lg:flex lg:items-center mb-3 ">
+
               <button
-                class="shadow bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                class="shadow bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded lg:ml-20 md:ml-10"
                 type="button"
               >
                 Mail Gönder
               </button>
-            </div>
           </div>
         </form>
-      </div>
+        </div>
     )
 }
