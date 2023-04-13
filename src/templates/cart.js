@@ -5,7 +5,7 @@ import Counter from '../components/Counter'
 import axios from 'axios'
 
 export default function Cart() {
-    const { productIds, setProductIds, setBasketItems } = useContext(StoreContext)
+    const { productIds, setProductIds, setBasketItems, basketItems } = useContext(StoreContext)
     const [basketData, setBasketData] = useState([])
     const API_URL = 'http://localhost:9006'
 
@@ -28,11 +28,8 @@ export default function Cart() {
         axios.delete(API_URL + `/basket-item/basket-item/${basketItemId}`)
         .then((response) => {
             setProductIds(productIds.filter((_, i) => i !== index))
-            setBasketData([{
-
-               data: response.data,
-            }]
-                )
+            setBasketData([{data: response.data}])
+            setBasketItems(basketItems.filter((basket,i) => index !== i ))
         })
     }
 
@@ -42,6 +39,7 @@ export default function Cart() {
             .then(() => {
                 setBasketData([])
                 setProductIds([])
+                setBasketItems([])
             })
         }
     }
