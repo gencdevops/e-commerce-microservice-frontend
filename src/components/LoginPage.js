@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import ".././app.css";
 import AuthService from "../services/auth.service";
 import { useHistory } from "react-router-dom";
+import jwtDecode from "jwt-decode";
+import {StoreContext} from "../context";
 
 export default function SignInPage() {
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
     let history = useHistory()
-
+    const {login, setLogin} = useContext(StoreContext)
    function emailChange(e){
     setEmail(e.target.value)
     }
@@ -19,6 +21,11 @@ export default function SignInPage() {
     function signIn(){
         AuthService.login(email, password).then(
             res =>{
+                debugger
+                const user = JSON.parse(localStorage.getItem('user'));
+                localStorage.setItem("mail", jwtDecode(user.jwtToken).sub);
+                setEmail(localStorage.getItem("mail"));
+                setLogin(true);
                 history.push("/products")
             },
             err=>{
