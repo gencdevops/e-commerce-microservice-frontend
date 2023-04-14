@@ -12,24 +12,30 @@ export default function SignUpPage() {
     const [birthDate, setBirthDate] = useState('');
     const [password, setPassword] = useState('');
     const [userName, setUserName] = useState('');
-    const {showModal, setShowModal} = useContext(StoreContext)
+    const { setShowModal } = useContext(StoreContext)
     const alert = useAlert();
     const history = useHistory();
+    const letters = /^[A-Za-z]+$/;
+    const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
 
     function emailChange(e) {
-      const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
-      if (regEx.test(e.target.value)) {
-        console.log('başarılı') 
-        setEmail(e.target.value)
-      }
+          setEmail(e.target.value)
     }
-    function firstNameChange(e) {setFirstName(e.target.value)}
-    function lastNameChange(e) {setLastName(e.target.value)}
+
+    function firstNameChange(e) {
+          setFirstName(e.target.value)
+    }
+
+    function lastNameChange(e) {
+          setLastName(e.target.value)
+    }
+
     function  passwordChange(e) {  setPassword(e.target.value) }
     function  birthDateChange(e) {setBirthDate(e.target.value)}
     function userNameChange(e) {setUserName(e.target.value)}
     function registerUser(){
        let userRegisterRequestDto = new RegisterModel(email,password,firstName,lastName,birthDate,userName);
+       if(regEx.test(email) && firstName.match(letters) && lastName.match(letters)) {
         AuthService.register(userRegisterRequestDto).then(
             res=>{
                 setShowModal(true)
@@ -41,6 +47,10 @@ export default function SignUpPage() {
                 alert.show('Kayıt oluşturulamadı!')
             }
         );
+      }
+      else {
+        alert.show('Lütfen eksik yerleri tamamlayın!')
+      }
     }
 
     return (
