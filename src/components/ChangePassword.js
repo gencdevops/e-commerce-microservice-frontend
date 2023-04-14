@@ -1,14 +1,16 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 
 import ".././app.css";
 import AuthService from "../services/auth.service";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
+import {StoreContext} from "../context";
 
 export default function ChangePassword() {
 
     const [pass, setPass] = useState("");
     const [rePass, setRePass] = useState("");
-
+    const {showModal, setShowModal} = useContext(StoreContext)
+    const history = useHistory();
     function changePassword(e) {
       setPass(e.target.value)
     }
@@ -16,7 +18,10 @@ export default function ChangePassword() {
     function sendChangePassword() {
         AuthService.changePassword(pass,rePass).then(
             res=>{
-                console.log(res)},
+
+               history.push("/")
+                setShowModal(true)
+            },
             err=>{
                 console.log(err)
             }
