@@ -16,10 +16,16 @@ export default function SignUpPage() {
     const alert = useAlert();
     const history = useHistory();
 
-    function passwordChange(e) {setPassword(e.target.value)}
+    function emailChange(e) {
+      const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
+      if (regEx.test(e.target.value)) {
+        console.log('başarılı') 
+        setEmail(e.target.value)
+      }
+    }
     function firstNameChange(e) {setFirstName(e.target.value)}
     function lastNameChange(e) {setLastName(e.target.value)}
-    function  emailChange(e) {  setEmail(e.target.value) }
+    function  passwordChange(e) {  setPassword(e.target.value) }
     function  birthDateChange(e) {setBirthDate(e.target.value)}
     function userNameChange(e) {setUserName(e.target.value)}
     function registerUser(){
@@ -32,7 +38,7 @@ export default function SignUpPage() {
 
             },
             err=>{
-                alert.show(err.error)
+                alert.show('Kayıt oluşturulamadı!')
             }
         );
     }

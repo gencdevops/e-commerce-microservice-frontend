@@ -125,7 +125,7 @@ const LoginButton = () => {
                                                        type="password"
                                                 />
                                             </div>
-                                            <div className="lg:flex align-center mb-3 mt-3">
+                                            <div className="flex items-center justify-center mb-3 mt-7 flex-col">
                                                 <div className="flex justify-center md:w-6/12">
                                                     <button onClick={signIn}
                                                             className="w-8/12 shadow bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
@@ -134,12 +134,12 @@ const LoginButton = () => {
                                                         Giriş Yap
                                                     </button>
                                                 </div>
-                                                <div className="flex justify-center md:w-12/12 underline text-red-500 mt-2">
-                                                   <Link onClick={() => setShowModal(false)} to="/register">Kayıt ol</Link>
-                                                </div>
-                                                <div className="flex justify-center md:w-6/12 underline text-red-500 mt-2">
-                                                    <Link onClick={() => setShowModal(false)} to="/forgot-password">Şifremi Unuttum</Link>
-                                                </div>
+                                                    <div className="flex justify-center md:w-12/12 underline text-red-500 mt-2">
+                                                        <Link onClick={() => setShowModal(false)} to="/register">Kayıt ol</Link>
+                                                    </div>
+                                                    <div className="flex justify-center md:w-6/12 underline text-red-500 mt-2">
+                                                        <Link onClick={() => setShowModal(false)} to="/forgot-password">Şifremi Unuttum</Link>
+                                                    </div>
                                             </div>
                                         </form>
                                     </div>
