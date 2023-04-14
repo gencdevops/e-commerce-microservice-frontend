@@ -1,17 +1,17 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { StoreContext } from '../context/index'
 import PropTypes from 'prop-types'
 import { useAlert } from 'react-alert'
 import axios from 'axios'
+import authHeader from '../services/auth-header'
 
 const ProductPanel = ({ productId, name, image, price }) => {
     const alert = useAlert()
     const { setProductIds, productIds, isLogin, setBasketItems, basketItems } = useContext(StoreContext)
-    const token = localStorage.getItem("user")
+    const user = localStorage.getItem('user')
     const API_URL = 'http://localhost:9006'
     
     const addBasketHandler = ( productId ) => {
-        if(true) {
             if(productIds.includes(productId)) {
                 return alert.show('This product is already in your cart!')
             } 
@@ -20,15 +20,16 @@ const ProductPanel = ({ productId, name, image, price }) => {
                 axios.post(API_URL + "/basket-item/basket-item", {
                     productId: productId,
                     quantity: 1,
-                    basketId: '108520d8-90c7-4b42-93e1-260fe2d4a413'
-                    }, 
+                    basketId: '108520d8-90c7-4b42-93e1-260fe2d4a413',
+                    }, {
+                        headers: authHeader() 
+                    }
                     ).then((response) => (
                         setProductIds([...productIds, productId]),
                         setBasketItems([...basketItems, response.data])
                     ))
                 )
             }
-        }
     }
 
     return (

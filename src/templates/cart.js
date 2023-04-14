@@ -1,32 +1,46 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StoreContext } from '../context'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Counter from '../components/Counter'
 import axios from 'axios'
+import authHeader from '../services/auth-header'
 
 export default function Cart() {
     const { productIds, setProductIds, setBasketItems, basketItems } = useContext(StoreContext)
     const [basketData, setBasketData] = useState([])
+    const history = useHistory()
     const API_URL = 'http://localhost:9006'
+    const ORDER_URL = 'http://localhost:9005'
 
     useEffect(() => {
-            axios.get(API_URL + `/basket/basket-basket/108520d8-90c7-4b42-93e1-260fe2d4a413`).then((data) => {
-                setBasketData(oldArray => [...oldArray, data])
-            })
+        axios.get(API_URL + `/basket/basket-basket/108520d8-90c7-4b42-93e1-260fe2d4a413`, 
+        {
+            headers: authHeader() 
+        }
+        ).then((data) => {
+            setBasketData(oldArray => [...oldArray, data])
+        })
     }, [])
 
     const handleAmountChange = (index, value, basketItemId) => {
         axios.put(API_URL + `/basket-item/quantity-increment/${basketItemId}`,{
             basketItemId: basketItemId,
             quantity: value,
-        }).then((data) => {
+        } ,
+        {
+            headers: authHeader() 
+        }
+        ).then((data) => {
             setBasketData([data])
         })
     }
 
-    const handleDeleteItem = (index,basketItemId) => {
-        axios.delete(API_URL + `/basket-item/basket-item/${basketItemId}`)
-        .then((response) => {
+    const handleDeleteItem = (index, basketItemId) => {
+        axios.delete(API_URL + `/basket-item/basket-item/${basketItemId}`, 
+            { 
+                headers: authHeader() 
+            }
+            ).then((response) => {
             setProductIds(productIds.filter((_, i) => i !== index))
             setBasketData([{data: response.data}])
             setBasketItems(basketItems.filter((basket,i) => index !== i ))
@@ -35,13 +49,40 @@ export default function Cart() {
 
     const handleClearCart = () => {
         if(window.confirm("You're about to clear shopping cart. Is that okay?")) {
-            axios.delete(API_URL + `/basket-item/108520d8-90c7-4b42-93e1-260fe2d4a413`)
+            axios.delete(API_URL + `/basket-item/108520d8-90c7-4b42-93e1-260fe2d4a413`,  
+            {
+                headers: authHeader() 
+            }
+            )
             .then(() => {
                 setBasketData([])
                 setProductIds([])
                 setBasketItems([])
             })
         }
+    }
+
+    const paymentRequest = (basketData) => {
+        axios.post(ORDER_URL + `/api/v1/orders/place-order` , {
+            userId: 'c39cc29c-169c-4e0c-9d69-4c781d63cdee',
+            basketResponseDto:{
+                basketItemList: basketData.basketItemList,
+                totalPrice: basketData.totalPrice,
+                basketId: '108520d8-90c7-4b42-93e1-260fe2d4a413',
+                },
+            },
+            {
+                headers: authHeader() 
+            }
+            ).then(({ data }) => {
+            history.push({
+                pathname:'/paymentSuccess',
+                state: { totalPrice: data.totalPrice}
+            })
+            setBasketData([])
+            setProductIds([])
+            setBasketItems([])
+        })
     }
 
     return (
@@ -102,9 +143,9 @@ export default function Cart() {
                                         <span>{basketData[0]?.data?.totalPrice?.toCurrency()}</span>
                                     </h4>
                                 </article>
-                                    <Link to='/paymentSuccess' className='btn-sm bg-red-500 text-white text-bold mt-7 text-center'>
+                                    <button onClick={() => paymentRequest(basketData[0]?.data)} className='btn-sm bg-red-500 text-white text-bold mt-7 text-center'>
                                         Go to the payment screen
-                                    </Link>
+                                    </button>
                             </div>
                         </section>
                     </div>
